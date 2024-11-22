@@ -25,8 +25,8 @@ class Cooperative(models.Model):
 
 class Quality(models.Model):
     name = models.CharField(max_length=50) #adding choices of type
-    std_temperature = models.DecimalField()
-    std_humidity = models.DecimalField()
+    std_temperature = models.DecimalField(decimal_places=3,max_digits=10)
+    std_humidity = models.DecimalField(decimal_places=3,max_digits=10)
     seasons = models.CharField(max_length=100)
     description = models.TextField(max_length=500)
 
@@ -44,15 +44,15 @@ class Stock_management(models.Model):
     def __str__(self) -> str:
         return f" {self.quality.name} -> {self.total_quantity_qualit}"
 class Fail_type(models.Model):
-    type_fail={
-        "HL": "High Level",
-        "ML": "Medium Level",
-        "LL": "Low Level"
-    }
+    type_fail=[
+        ("HL", "High Level"),
+        ("ML", "Medium Level"),
+        ("LL", "Low Level"),
+    ]
     name = models.CharField(max_length=100)
     error_detail = models.TextField(max_length=300)
     equipment = models.CharField(max_length=50)
-    level = models.CharField(choices=type_fail)
+    level = models.CharField(max_length=50, choices=type_fail)
     effect = models.CharField(max_length=20)
 
     def __str__(self):
@@ -62,8 +62,8 @@ class System(models.Model):
     cooperative = models.OneToOneField(Cooperative, on_delete=models.CASCADE)
     fail_type = models.ManyToManyField(Fail_type)
     status = models.CharField(max_length=20) #add choices
-    temperature_change = models.DecimalField()
-    humidity_change = models.DecimalField()
+    temperature_change = models.DecimalField(decimal_places=3,max_digits=10)
+    humidity_change = models.DecimalField(decimal_places=3,max_digits=10)
     last_update = models.DateTimeField()
     failed = models.BooleanField()
 
