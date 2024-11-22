@@ -20,12 +20,18 @@ class Cooperative(models.Model):
     location = models.CharField(max_length=255)
     started_date = models.DateField()
 
+    def __str__(self):
+        return f"{self.user.name}"
+
 class Quality(models.Model):
     name = models.CharField(max_length=50) #adding choices of type
     std_temperature = models.DecimalField()
     std_humidity = models.DecimalField()
     seasons = models.CharField(max_length=100)
     description = models.TextField(max_length=500)
+
+    def __str__(self):
+        return self.name
 
 class Stock_management(models.Model):
     cooperative = models.ForeignKey(Cooperative, on_delete=models.CASCADE)
@@ -35,12 +41,22 @@ class Stock_management(models.Model):
     expired_date = models.DateTimeField()
     total_quantity_quality = models.IntegerField()
 
+    def __str__(self) -> str:
+        return f" {self.quality.name} -> {self.total_quantity_qualit}"
 class Fail_type(models.Model):
+    type_fail={
+        "HL": "High Level",
+        "ML": "Medium Level",
+        "LL": "Low Level"
+    }
     name = models.CharField(max_length=100)
     error_detail = models.TextField(max_length=300)
     equipment = models.CharField(max_length=50)
-    level = models.CharField()#choice add
+    level = models.CharField(choices=type_fail)
     effect = models.CharField(max_length=20)
+
+    def __str__(self):
+        return f"{self.name} -> {self.error_detail}"
 
 class System(models.Model):
     cooperative = models.OneToOneField(Cooperative, on_delete=models.CASCADE)
@@ -51,19 +67,28 @@ class System(models.Model):
     last_update = models.DateTimeField()
     failed = models.BooleanField()
 
+    def __str__(self):
+        return f"Temp: {self.temperature_change} hum: {self.humidity_change}"
+
 class Notification(models.Model):
     system = models.ForeignKey(System, on_delete=models.CASCADE)
     message = models.TextField(max_length=500)
     status = models.CharField(max_length=100)
 
+    def __str__(self):
+        return self.message
+
 class Message(models.Model):
     email = models.CharField(max_length=100)
     comment = models.TextField(max_length=500)
     reply = models.TextField(max_length=500)
-
+    def __str__(self):
+        return self.comment
 class Geolocation(models.Model):
     cooperative = models.OneToOneField(Cooperative, on_delete=models.CASCADE)
     latitude = models.FloatField(null=True)
     longitude = models.FloatField(null=True)
     address = models.CharField(max_length=200)
     
+    def __str__(self):
+        return f"{self.latitude} {self.longitude}"
