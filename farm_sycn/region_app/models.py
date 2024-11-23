@@ -21,7 +21,7 @@ class Cooperative(models.Model):
     started_date = models.DateField()
 
     def __str__(self):
-        return f"{self.user.name}"
+        return f"{self.user.full_name}"
 
 class Quality(models.Model):
     name = models.CharField(max_length=50) #adding choices of type
@@ -43,6 +43,7 @@ class Stock_management(models.Model):
 
     def __str__(self) -> str:
         return f" {self.quality.name} -> {self.total_quantity_qualit}"
+    
 class Fail_type(models.Model):
     type_fail=[
         ("HL", "High Level"),
@@ -84,6 +85,7 @@ class Message(models.Model):
     reply = models.TextField(max_length=500)
     def __str__(self):
         return self.comment
+    
 class Geolocation(models.Model):
     cooperative = models.OneToOneField(Cooperative, on_delete=models.CASCADE)
     latitude = models.FloatField(null=True)

@@ -1,4 +1,4 @@
-from django.shortcuts import render,HttpResponse
+from django.shortcuts import render
 
 def Hello(request):
-    return HttpResponse("Hello Django sycn Farmer")
+    return render(request, "landing.html")
