@@ -26,3 +26,6 @@ def stock_mngt(request):
 
 def login(request):
     return render(request, 'login.html')
+
+def add_mngt(request):
+    return render(request,"add_mngt.html")
