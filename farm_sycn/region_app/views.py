@@ -1,19 +1,34 @@
-from django.shortcuts import render
-
+from django.shortcuts import render, get_object_or_404, get_list_or_404
+from .models import Geolocation
+from .models import Cooperative
+from .models import User
+from .models import Stock_management
+from .models import System
+from .models import Notification
+from .models import Fail_type
 def Hello(request):
     return render(request, "landing.html")
 
-def dashboard(request):
+def dashboard(request, id):
+    system = get_list_or_404(System, Cooperative=id)
+    mngt = get_list_or_404(Stock_management, Cooperative=id)
+    cooperative = get_object_or_404(Cooperative, pk=id)
+    dash_info = {
+        "name": cooperative.user.full_name
+    }
     return render(request, 'dashboard.html')
 
 def home(request):
-    return render(request, 'home.html')
+    geolocation = Geolocation.objects.all()
+    return render(request, 'home.html', {'locationCoop': geolocation})
 
 def signup(request):
     return render(request, 'signup.html')
 
-def overview(request):
-    return render(request, 'overview.html')
+def overview(request, id):
+    coop = get_object_or_404(Cooperative,pk=id)
+    print(coop)
+    return render(request, 'overview.html', {'cooperative_info': coop})
 
 def notification(request):
     return render(request, 'notification.html')
@@ -21,8 +36,9 @@ def notification(request):
 def complete_account(request):
     return render(request, 'complete_account.html')
 
-def stock_mngt(request):
-    return render(request, 'stock_mngt.html')
+def stock_mngt(request, id):
+    stock = get_list_or_404(Stock_management, cooperative_id=id)
+    return render(request, 'stock_mngt.html', {'stocks': stock})
 
 def login(request):
     return render(request, 'login.html')

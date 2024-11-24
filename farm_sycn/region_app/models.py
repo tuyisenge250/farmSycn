@@ -42,7 +42,7 @@ class Stock_management(models.Model):
     total_quantity_quality = models.IntegerField()
 
     def __str__(self) -> str:
-        return f" {self.quality.name} -> {self.total_quantity_qualit}"
+        return f" {self.quality.name} -> {self.total_quantity_quality}"
     
 class Fail_type(models.Model):
     type_fail=[
@@ -60,7 +60,7 @@ class Fail_type(models.Model):
         return f"{self.name} -> {self.error_detail}"
 
 class System(models.Model):
-    cooperative = models.OneToOneField(Cooperative, on_delete=models.CASCADE)
+    cooperative = models.ForeignKey(Cooperative, on_delete=models.CASCADE)
     fail_type = models.ManyToManyField(Fail_type)
     status = models.CharField(max_length=20) #add choices
     temperature_change = models.DecimalField(decimal_places=3,max_digits=10)

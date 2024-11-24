@@ -10,6 +10,12 @@ urlpatterns = [
                path('dashboard/', views.dashboard, name="dashboard"),
                path('sinup/coopinfo', views.complete_account, name="complete_acc"),
                path('notification/', views.notification, name="notification"),
-               path('stockManagement/', views.stock_mngt, name="management"),
-               path('scockManagement/add', views.add_mngt, name="add")
+               path('management/<int:id>', views.stock_mngt, name="management"),
+               path('scockManagement/add', views.add_mngt, name="add"),
                ]
+
+from django.conf import settings
+from django.conf.urls.static import static
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
