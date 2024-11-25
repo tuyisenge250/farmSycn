@@ -19,6 +19,8 @@ class Cooperative(models.Model):
     contact = models.CharField(max_length=100)
     location = models.CharField(max_length=255)
     started_date = models.DateField()
+    vesion = models.TextField(null=True)
+    mission = models.TextField(null=True)
 
     def __str__(self):
         return f"{self.user.full_name}"
@@ -61,12 +63,13 @@ class Fail_type(models.Model):
 
 class System(models.Model):
     cooperative = models.ForeignKey(Cooperative, on_delete=models.CASCADE)
-    fail_type = models.ManyToManyField(Fail_type)
+    fail_type = models.ManyToManyField(Fail_type, null=True)
     status = models.CharField(max_length=20) #add choices
     temperature_change = models.DecimalField(decimal_places=3,max_digits=10)
     humidity_change = models.DecimalField(decimal_places=3,max_digits=10)
     last_update = models.DateTimeField()
     failed = models.BooleanField()
+   
 
     def __str__(self):
         return f"Temp: {self.temperature_change} hum: {self.humidity_change}"

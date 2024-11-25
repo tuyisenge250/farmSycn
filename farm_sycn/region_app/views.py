@@ -10,13 +10,16 @@ def Hello(request):
     return render(request, "landing.html")
 
 def dashboard(request, id):
-    system = get_list_or_404(System, Cooperative=id)
-    mngt = get_list_or_404(Stock_management, Cooperative=id)
+    system = get_list_or_404(System, cooperative_id=id)
+    mngt = get_list_or_404(Stock_management, cooperative_id=2)
     cooperative = get_object_or_404(Cooperative, pk=id)
     dash_info = {
-        "name": cooperative.user.full_name
+        "name": cooperative.user.full_name,
+        "coop_info": cooperative,
+        "system_info": system[:5],
+        "management":  mngt[:5],
     }
-    return render(request, 'dashboard.html')
+    return render(request, 'dashboard.html', {"dashboard": dash_info})
 
 def home(request):
     geolocation = Geolocation.objects.all()
