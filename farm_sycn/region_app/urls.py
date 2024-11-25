@@ -9,7 +9,7 @@ urlpatterns = [
                path('sinup/', views.signup, name='sinup'),
                path('dashboard/<int:id>', views.dashboard, name="dashboard"),
                path('sinup/coopinfo', views.complete_account, name="complete_acc"),
-               path('notification/', views.notification, name="notification"),
+               path('notification/<int:id>', views.notification, name="notification"),
                path('management/<int:id>', views.stock_mngt, name="management"),
                path('scockManagement/add', views.add_mngt, name="add"),
                ]

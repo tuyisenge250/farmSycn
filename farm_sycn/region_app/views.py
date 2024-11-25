@@ -30,10 +30,11 @@ def signup(request):
 
 def overview(request, id):
     coop = get_object_or_404(Cooperative,pk=id)
-    print(coop)
     return render(request, 'overview.html', {'cooperative_info': coop})
 
-def notification(request):
+def notification(request, id):
+    coop = get_object_or_404(Cooperative, pk=id)
+    mngt = get_list_or_404(Stock_management, cooperative_id=id)
     return render(request, 'notification.html')
 
 def complete_account(request):
