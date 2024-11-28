@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 class User(models.Model):
     full_name = models.CharField(max_length=100)
@@ -36,12 +37,19 @@ class Quality(models.Model):
         return self.name
 
 class Stock_management(models.Model):
+    flows = [
+        ("IN", "input stock"),
+        ("OUT", "output stock"),
+    ]
     cooperative = models.ForeignKey(Cooperative, on_delete=models.CASCADE)
     quality = models.ForeignKey(Quality, on_delete=models.CASCADE)
     quantity = models.IntegerField()
     date = models.DateTimeField()
     expired_date = models.DateTimeField()
     total_quantity_quality = models.IntegerField()
+    flows = models.CharField(max_length=20, choices=flows)
+
+
 
     def __str__(self) -> str:
         return f" {self.quality.name} -> {self.total_quantity_quality}"
@@ -78,6 +86,7 @@ class Notification(models.Model):
     system = models.ForeignKey(System, on_delete=models.CASCADE)
     message = models.TextField(max_length=500)
     status = models.CharField(max_length=100)
+    date = models.DateTimeField(default=timezone.now())
 
     def __str__(self):
         return self.message

@@ -33,9 +33,8 @@ def overview(request, id):
     return render(request, 'overview.html', {'cooperative_info': coop})
 
 def notification(request, id):
-    coop = get_object_or_404(Cooperative, pk=id)
-    mngt = get_list_or_404(Stock_management, cooperative_id=id)
-    return render(request, 'notification.html')
+    notification = get_list_or_404(Notification, cooperative_id=id)
+    return render(request, 'notification.html', {"nots": notification})
 
 def complete_account(request):
     return render(request, 'complete_account.html')
