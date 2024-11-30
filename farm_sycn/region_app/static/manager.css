@@ -1,0 +1,177 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+  }
+  
+  .dashboard {
+    display: flex;
+    height: 100vh;
+  }
+  
+  .sidebar {
+    width: 15%;
+    background-color: #d9d9d9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+  }
+  
+  .sidebar .logo {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .sidebar .logo img {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+  }
+  
+  .sidebar nav ul {
+    list-style-type: none;
+    padding: 0;
+    width: 100%;
+  }
+  
+  .sidebar nav ul li {
+    padding: 15px;
+    text-align: center;
+    cursor: pointer;
+    background-color: #ffffff;
+    margin-bottom: 10px;
+  }
+  
+  .sidebar nav ul li.active {
+    background-color: #ccc;
+  }
+  
+  .sidebar .logout {
+    margin-top: auto;
+    margin-bottom: 20px;
+    cursor: pointer;
+    color: #000;
+  }
+  
+  .main-content {
+    flex: 1;
+    padding: 20px;
+  }
+  
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .topbar .controls {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .topbar .notifications {
+    position: relative;
+  }
+  
+  .topbar .notifications .badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: red;
+    color: white;
+    font-size: 10px;
+    border-radius: 50%;
+    padding: 2px 5px;
+  }
+  
+  .metrics {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 30px;
+  }
+  
+  .metric {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    width: 30%;
+  }
+  
+  .metric .icon {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    margin: 0 auto 10px;
+  }
+  
+  .metric .icon.green {
+    background-color: #32cd32;
+  }
+  
+  .metric .icon.yellow {
+    background-color: #ffcc00;
+  }
+  
+  .chart {
+    background-color: #e8f5e9;
+    border-radius: 10px;
+    padding: 20px;
+  }
+  
+  .chart h2 {
+    margin: 0 0 20px;
+  }
+  
+  .chart-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .bar {
+    display: flex;
+    align-items: center;
+  }
+  
+  .bar span {
+    width: 50px;
+    text-align: right;
+    margin-right: 10px;
+  }
+  
+  .bar .progress {
+    height: 10px;
+    background-color: #32cd32;
+    border-radius: 5px;
+    margin-right: 10px;
+  }
+  
+  .bar:last-child .progress {
+    background-color: #ccc;
+  }
+  .topbar .profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .topbar .profile img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #d9d9d9;
+  }
+  
+  .topbar .profile span {
+    font-size: 14px;
+    font-weight: bold;
+  }
+    

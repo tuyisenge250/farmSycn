@@ -1,22 +1,112 @@
-<h1>User DashBord</h1>
-<h2>{{ dashboard.name }}</h2>
-<div>
-    <h2>cooperative</h2>
-    <h4>{{ dashboard.coop_info.number_of_member }}</h4>
-    <h4>{{ dashboard.coop_info.location }}</h4>
-</div>
-<div>
-    <h2>stock</h2>
-    {% for trans in dashboard.management %}
-       <h1>{{ trans.total_quantity_quality }}</h1>
-       <p>{{ trans.date }}</p>
-    {% endfor %}
-</div>
-<div>
-    <h2>system status</h2>
-    {% for system in dashboard.system_info %}
-      <h3>{{ system.temperature_change }}</h3>
-      <h3>{{ system.humidity_change }}</h3>
-      <p>{{ system.failed }}</p>
-      {% endfor %}
-</div>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FarmSync Admin Dashboard</title>
+  <link rel="stylesheet" href="{% static 'dashboard/styles.css' %}">
+</head>
+<body>
+  <div class="dashboard">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="logo">
+        <img src="{% static 'dashboard/logo.png' %}" alt="FarmSync Logo">
+        <span>FarmSync</span>
+      </div>
+      <nav>
+        <ul>
+          <li class="active"><i class="icon-dashboard"></i> Dashboard</li>
+          <li><i class="icon-users"></i> Users</li>
+          <li><i class="icon-issues"></i> Issues</li>
+          <li><i class="icon-feedback"></i> Feedback <span class="badge">49</span></li>
+          <li><i class="icon-notification"></i> Notification</li>
+          <li><i class="icon-changes"></i> Changes</li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Top Metrics -->
+      <section class="metrics">
+        <div class="metric">
+          <div class="icon purple"></div>
+          <p>3+ <span>Needs Approval</span></p>
+        </div>
+        <div class="metric">
+          <div class="icon green"></div>
+          <p>2 <span>System Errors</span></p>
+        </div>
+        <div class="metric">
+          <div class="icon pink"></div>
+          <p>120+ <span>Work Well as Expected</span></p>
+        </div>
+        <div class="metric">
+          <div class="icon blue"></div>
+          <p>12+ <span>Request for System</span></p>
+        </div>
+      </section>
+
+      <!-- Graph Section -->
+      <section class="graph">
+        <h2>Report of System</h2>
+        <div class="chart">
+          <canvas id="lineChart"></canvas>
+        </div>
+      </section>
+
+      <!-- Table Section -->
+      <section class="table-section">
+        <h2>Changes Occur</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>System Number</th>
+              <th>Failed Part</th>
+              <th>Temp</th>
+              <th>Level of Change</th>
+              <th>Direct Effect</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>876364</td>
+              <td><img src="{% static 'dashboard/camera_lens.png' %}" alt="Camera Lens"> Camera Lens</td>
+              <td>22</td>
+              <td class="high">High</td>
+              <td>75</td>
+            </tr>
+            <tr>
+              <td>876368</td>
+              <td><img src="{% static 'dashboard/arduino.png' %}" alt="Arduino"> Arduino</td>
+              <td>4</td>
+              <td class="medium">Medium</td>
+              <td>85</td>
+            </tr>
+            <tr>
+              <td>876412</td>
+              <td><img src="{% static 'dashboard/arduino.png' %}" alt="Arduino"> Arduino</td>
+              <td>34</td>
+              <td class="destroy">Destroy</td>
+              <td>92</td>
+            </tr>
+            <tr>
+              <td>876621</td>
+              <td><img src="{% static 'dashboard/airflow.png' %}" alt="Airflow"> Airflow</td>
+              <td>25</td>
+              <td class="medium">Medium</td>
+              <td>55</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </div>
+
+  <!-- Chart.js Script -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="{% static 'script/dashboard.js' %}"></script>
+</body>
+</html>

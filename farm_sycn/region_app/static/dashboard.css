@@ -1,0 +1,145 @@
+/* General Reset */
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  /* Sidebar */
+  .sidebar {
+    width: 20%;
+    background-color: #2a2d37;
+    height: 100vh;
+    color: white;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px;
+  }
+  
+  .sidebar .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 20px;
+  }
+  
+  .sidebar nav ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .sidebar nav ul li {
+    padding: 15px 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .sidebar nav ul li.active {
+    background-color: #1e222b;
+  }
+  
+  .sidebar nav ul li .badge {
+    background-color: #e91e63;
+    border-radius: 50%;
+    font-size: 10px;
+    padding: 2px 5px;
+  }
+  
+  /* Main Content */
+  .main-content {
+    margin-left: 20%;
+    padding: 20px;
+  }
+  
+  .metrics {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  
+  .metric {
+    flex: 1;
+    background: white;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .metric .icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin: 0 auto 10px;
+  }
+  
+  .icon.purple {
+    background-color: purple;
+  }
+  
+  .icon.green {
+    background-color: green;
+  }
+  
+  .icon.pink {
+    background-color: pink;
+  }
+  
+  .icon.blue {
+    background-color: blue;
+  }
+  
+  /* Chart Section */
+  .graph {
+    margin-top: 30px;
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+  }
+  
+  .chart {
+    height: 300px;
+  }
+  
+  /* Table Section */
+  .table-section {
+    margin-top: 30px;
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    padding: 10px;
+    text-align: left;
+  }
+  
+  th {
+    background-color: #f4f4f4;
+  }
+  
+  td img {
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+  }
+  
+  .high {
+    color: red;
+  }
+  
+  .medium {
+    color: orange;
+  }
+  
+  .destroy {
+    color: purple;
+  }
+  
