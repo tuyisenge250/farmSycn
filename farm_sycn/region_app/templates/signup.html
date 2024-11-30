@@ -18,7 +18,7 @@
             </div>
             <ul class="nav-links">
                 <li><a href="{% url 'Home' %}">Home</a></li>
-                <li><a href="#">About</a></li>
+                <li><a href="{% url 'landing' %}">About</a></li>
                 <li><a href="#">Dashboard</a></li>
             </ul>
             <div class="contact">
@@ -65,7 +65,7 @@
                     </button>
                 </div>
                 <br>
-                <p style=" text-align: center;">Have an account? <a style="color: #1976D2;" href="#">Sign In</a></p>
+                <p style=" text-align: center;">Have an account? <a style="color: #1976D2;" href="{% url 'login' %}">Sign In</a></p>
             </div>
             <div class="promo">
                 <h2>Create Your Account and</h2>
