@@ -7,7 +7,8 @@ from .models import Stock_management
 from .models import System
 from .models import Notification
 from .models import Fail_type
-from .forms import UserForm, CooperativeForm, StockManagementForm, QualityForm, FailTypeForm, MessageForm
+from .forms import UserForm, CooperativeForm, StockManagementForm, QualityForm, FailTypeForm, MessageForm, GeolocationForm
+from .utils import get_coordinates
 
 def Hello(request):
     return render(request, "landing.html")
@@ -65,6 +66,22 @@ def complete_account(request, id):
             cooperative = forms.save(commit=False)
             cooperative.user = user
             cooperative.save()
+
+            village = cooperative.location_village
+            cell = cooperative.location_cell
+            sector = cooperative.location_sector
+            district = cooperative.location_district
+            province = cooperative.location_province
+
+            location = get_coordinates(village, cell, sector, district, province)
+
+            if location:
+                geolocation = Geolocation()
+                geolocation.cooperative = cooperative
+                geolocation.latitude = location.latitude
+                geolocation.longitude = location.longitude
+                geolocation.address = f"{village}, {cell}, {sector}, {district}, {province}, Rwanda"
+                geolocation.save()
             return redirect('login')
         else:
             return render(request, 'complete_account.html', {'form': forms})
