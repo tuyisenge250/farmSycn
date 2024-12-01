@@ -28,8 +28,10 @@ def home(request):
     if request.method == "POST":
         message = MessageForm(request.POST)
         message.save()
+    else:
+        form = MessageForm()
     geolocation = Geolocation.objects.all()
-    return render(request, 'home.html', {'locationCoop': geolocation})
+    return render(request, 'home.html', {'locationCoop': geolocation, 'form': form})
 
 def signup(request):
     if request.method == 'POST':

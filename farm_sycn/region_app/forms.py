@@ -44,10 +44,10 @@ class QualityForm(ModelForm):
         model = System
         fields = "__all__"
 
-# class GeolocationForm(ModelForm):
-#     class Meta:
-#         model = Geolocation
-#         fields = "__all__"
+class GeolocationForm(ModelForm):
+    class Meta:
+        model = Geolocation
+        fields = "__all__"
 
 class MessageForm(ModelForm):
     class Meta:

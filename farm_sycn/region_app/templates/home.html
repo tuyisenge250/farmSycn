@@ -24,6 +24,11 @@
 <body>
      
     <h1>Cooperative Geo Location</h1>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="send">
+    </form>
     <div id="map"></div>
  
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
