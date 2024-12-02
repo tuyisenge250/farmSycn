@@ -2,9 +2,9 @@ from django.db import models
 from django.utils import timezone
 
 class User(models.Model):
-    full_name = models.CharField(max_length=100)
+    full_name = models.CharField(max_length=100, unique=True)
     abv_name = models.CharField(max_length=15)
-    email = models.CharField(max_length=60)
+    email = models.EmailField(max_length=60)
     phone = models.CharField(max_length=10)
     password = models.CharField(max_length=255)
     number_managers = models.IntegerField()
@@ -18,7 +18,11 @@ class Cooperative(models.Model):
     trade_license = models.FileField(upload_to='specs')
     number_of_members = models.IntegerField()
     contact = models.CharField(max_length=100)
-    location = models.CharField(max_length=255)
+    location_village = models.CharField(max_length=255)
+    location_cell = models.CharField(max_length=255, null=True)
+    location_sector = models.CharField(max_length=60, null=True)
+    location_district = models.CharField(max_length=60, null=True)
+    location_province = models.CharField(max_length=60, null=True)
     started_date = models.DateField()
     vesion = models.TextField(null=True)
     mission = models.TextField(null=True)
@@ -27,7 +31,7 @@ class Cooperative(models.Model):
         return f"{self.user.full_name}"
 
 class Quality(models.Model):
-    name = models.CharField(max_length=50) #adding choices of type
+    name = models.CharField(max_length=50)
     std_temperature = models.DecimalField(decimal_places=3,max_digits=10)
     std_humidity = models.DecimalField(decimal_places=3,max_digits=10)
     seasons = models.CharField(max_length=100)
@@ -47,9 +51,7 @@ class Stock_management(models.Model):
     date = models.DateTimeField()
     expired_date = models.DateTimeField()
     total_quantity_quality = models.IntegerField()
-    flows = models.CharField(max_length=20, choices=flows)
-
-
+    flows_ch = models.CharField(max_length=50, choices=[("IN", "Input Stock"), ("OUT", "Output Stock")],default="IN")
 
     def __str__(self) -> str:
         return f" {self.quality.name} -> {self.total_quantity_quality}"
@@ -86,7 +88,7 @@ class Notification(models.Model):
     system = models.ForeignKey(System, on_delete=models.CASCADE)
     message = models.TextField(max_length=500)
     status = models.CharField(max_length=100)
-    date = models.DateTimeField(default=timezone.now())
+    date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return self.message

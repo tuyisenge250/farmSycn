@@ -5,13 +5,14 @@ from .models import Cooperative
 from .models import User
 from .models import Stock_management
 from .models import System
+from .models import Quality
 from .models import Notification
 from .models import Fail_type
-from .models import System
-
+from .models import System, Message
 
 
 class UserForm(ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput)
     class Meta:
         model = User
         fields = "__all__"
@@ -24,33 +25,14 @@ class UserForm(ModelForm):
 class CooperativeForm(ModelForm):
     class Meta:
         model = Cooperative
-        fields = "__all__"
+        exclude = ['user']
 
-    def __init__(self, *args, **kwargs):
-        user = kwargs.pop('user', None)
-        super(CooperativeForm, self).__init__(*args, **kwargs)
 
-        if user:
-            self.fields['user'].initial = user
-            self.fields['user'].widget.attrs['readonly'] = True
-
-# forms.py
-from django import forms
-from .models import Stock_management, System
-
-class StockManagementForms(forms.ModelForm):
-    quality = forms.ModelChoiceField(queryset=System.objects.all(), required=True, label="Select quality")
-    
+class StockManagementForm(forms.ModelForm):
+    quality = forms.ModelChoiceField(queryset=Quality.objects.all(), required=True, label="Select quality")
     class Meta:
         model = Stock_management
-        fields = "__all__"
-    def __init__(self, *args, **kwargs):
-        cooperative = kwargs.pop('cooperative', None) 
-        super().__init__(*args, **kwargs)  
-        
-        if cooperative:
-            self.fields['cooperative'].initial = cooperative
-            self.fields['cooperative'].widget.attrs['readonly'] = True
+        exclude = ['cooperative', 'total_quantity_quality']
 
 class FailTypeForm(ModelForm):
     class Meta:
@@ -62,7 +44,12 @@ class QualityForm(ModelForm):
         model = System
         fields = "__all__"
 
-# class GeolocationForm(ModelForm):
-#     class Meta:
-#         model = Geolocation
-#         fields = "__all__"
+class GeolocationForm(ModelForm):
+    class Meta:
+        model = Geolocation
+        fields = "__all__"
+
+class MessageForm(ModelForm):
+    class Meta:
+        model = Message
+        fields = ['email', 'comment']
