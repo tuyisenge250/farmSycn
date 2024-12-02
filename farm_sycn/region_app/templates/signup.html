@@ -1,6 +1,87 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmSync</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static "signup.css" %}">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="left-section">
+                <img src="{% static "images/logo_sycn.png" %}" alt="FarmSync Logo" class="logo">
+            </div>
+            <ul class="nav-links">
+                <li><a href="{% url 'Home' %}">Home</a></li>
+                <li><a href="{% url 'landing' %}">About</a></li>
+                <li><a href="#">Dashboard</a></li>
+            </ul>
+            <div class="contact">
+                <button>
+                    <i class="fa fa-phone"></i> Call Anytime<br>0790635120
+                </button>
+            </div>
+        </nav>
+    </header>
+    
+    <main>
+        <section class="signup">
+            <div class="form-container">
+                <h1>Get Started Now</h1>
+                <form>
+                    <label for="names">Names:</label>
+                    <input type="text" id="names" placeholder="ENTER YOUR NAMES">
+                    
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" placeholder="ENTER YOUR Email">
+                    
+                    <label for="phone">Phone:</label>
+                    <input type="tel" id="phone" placeholder="Enter your Phone Number">
+                    
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" placeholder="Enter a strong password">
+                    
+                    <label for="confirm-password">Confirm Password:</label>
+                    <input type="password" id="confirm-password" placeholder="Enter Password again">
+                    
+                    <button type="submit" class="continue-btn">Continue</button>
+                </form>
+                <div class="alt-signin">
+                    <div class="line"></div>
+                    <p>OR</p>
+                    <div class="line"></div>
+                </div>
+                <div class="signin-options">
+                    <button class="google-signin">
+                        <img src="{% static "images/gg.jpg" %}" alt="Google Icon"> Sign in with Google
+                    </button>
+                    <button class="apple-signin">
+                        <img src="{% static "images/aa.jpg" %}" alt="Apple Icon"> Sign in with Apple
+                    </button>
+                </div>
+                <br>
+                <p style=" text-align: center;">Have an account? <a style="color: #1976D2;" href="{% url 'login' %}">Sign In</a></p>
+            </div>
+            <div class="promo">
+                <h2>Create Your Account and</h2>
+                <h3>Grow with <span>Us</span></h3>
+                <img src="{% static "images/tom_sycn.png" %}" alt="Tomato Crate">
+            </div>
+        </section>
+    </main>
+</body>
+</html>
+
 <h1>Signup for User</h1>
 <form action="#" method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" name="" value="Signup">
 </form>
+

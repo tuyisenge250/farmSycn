@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FarmSync Dashboard</title>
+  <link rel="stylesheet" href="{% static 'manager.css' %}">
+</head>
+<body>
+  <div class="dashboard">
+    <aside class="sidebar">
+      <div class="logo">
+        <img src="{% static 'images/logo_sycn.png' %}" alt="FarmSync Logo">
+        <span>FarmSync</span>
+      </div>
+      <nav>
+        <ul>
+          <li class="active">Dashboard</li>
+          <li>Stock</li>
+        </ul>
+      </nav>
+      <a href="#" class="logout">Logout</a>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div class="controls">
+          <span class="mode-toggle">🌙</span>
+          <span class="notifications">🔔<span class="badge">1</span></span>
+        </div>
+        <div class="profile">
+            <img src="{% static 'dashboard/profile_image.jpg' %}" alt="Zamuka Profile Image">
+            <span>Zamuka Cooperative</span>
+          </div>
+          
+      </header>
+
+      <section class="metrics">
+        <div class="metric">
+          <div class="icon green"></div>
+          <p>Total Stock (kg)</p>
+          <h3>{{ metrics.total_stock }}</h3>
+        </div>
+        <div class="metric">
+          <div class="icon yellow"></div>
+          <p>Total Sold (kg)</p>
+          <h3>{{ metrics.total_sold }}</h3>
+        </div>
+        <div class="metric">
+          <div class="icon green"></div>
+          <p>Total Expired (kg)</p>
+          <h3>{{ metrics.total_expired }}</h3>
+        </div>
+      </section>
+
+      <section class="chart">
+        <h2>Product Add by Month</h2>
+        <div class="chart-container">
+          {% for data in monthly_data %}
+          <div class="bar">
+            <span>{{ data.month }}</span>
+            <div class="progress" style="width: {{ data.value|divisibleby:1000 }}%;"></div>
+            <span>{{ data.value }}</span>
+          </div>
+          {% endfor %}
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
