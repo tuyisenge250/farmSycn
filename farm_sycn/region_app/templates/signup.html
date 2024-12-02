@@ -1,3 +1,4 @@
+
 {% load static %}
 
 <!DOCTYPE html>
@@ -76,3 +77,11 @@
     </main>
 </body>
 </html>
+
+<h1>Signup for User</h1>
+<form action="#" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" name="" value="Signup">
+</form>
+
