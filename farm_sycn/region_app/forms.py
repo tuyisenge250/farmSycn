@@ -53,3 +53,8 @@ class MessageForm(ModelForm):
     class Meta:
         model = Message
         fields = ['email', 'comment']
+
+class SystemForm(ModelForm):
+    class Meta:
+        model = System
+        exclude = ['cooperative']

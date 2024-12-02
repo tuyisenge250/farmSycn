@@ -18,11 +18,11 @@ class Cooperative(models.Model):
     trade_license = models.FileField(upload_to='specs')
     number_of_members = models.IntegerField()
     contact = models.CharField(max_length=100)
-    location_village = models.CharField(max_length=255)
-    location_cell = models.CharField(max_length=255, null=True)
-    location_sector = models.CharField(max_length=60, null=True)
-    location_district = models.CharField(max_length=60, null=True)
-    location_province = models.CharField(max_length=60, null=True)
+    location_village = models.CharField(max_length=255, blank=True)
+    location_cell = models.CharField(max_length=255, null=True, blank=True)
+    location_sector = models.CharField(max_length=60, null=True, blank=True)
+    location_district = models.CharField(max_length=60, null=True, blank=True)
+    location_province = models.CharField(max_length=60, null=True, blank=True)
     started_date = models.DateField()
     vesion = models.TextField(null=True)
     mission = models.TextField(null=True)
@@ -69,12 +69,12 @@ class Fail_type(models.Model):
     effect = models.CharField(max_length=20)
 
     def __str__(self):
-        return f"{self.name} -> {self.error_detail}"
+        return f"{self.name}"
 
 class System(models.Model):
     cooperative = models.ForeignKey(Cooperative, on_delete=models.CASCADE)
     fail_type = models.ManyToManyField(Fail_type, null=True)
-    status = models.CharField(max_length=20) #add choices
+    status = models.CharField(max_length=20)
     temperature_change = models.DecimalField(decimal_places=3,max_digits=10)
     humidity_change = models.DecimalField(decimal_places=3,max_digits=10)
     last_update = models.DateTimeField()

@@ -12,6 +12,7 @@ urlpatterns = [
                path('notification/<int:id>', views.notification, name="notification"),
                path('management/<int:id>', views.stock_mngt, name="management"),
                path('management/<int:id>/add/', views.add_mngt, name="add"),
+               path('system/<int:id>', views.system, name="system")
                ]
 
 from django.conf import settings

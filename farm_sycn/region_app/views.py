@@ -7,7 +7,7 @@ from .models import Stock_management
 from .models import System
 from .models import Notification
 from .models import Fail_type
-from .forms import UserForm, CooperativeForm, StockManagementForm, QualityForm, FailTypeForm, MessageForm, GeolocationForm
+from .forms import UserForm, CooperativeForm, StockManagementForm, QualityForm, FailTypeForm, MessageForm, GeolocationForm, SystemForm
 from .utils import get_coordinates
 
 def Hello(request):
@@ -54,32 +54,32 @@ def overview(request, id):
     return render(request, 'overview.html', {'cooperative_info': coop})
 
 def notification(request, id):
-    notification = get_list_or_404(Notification, cooperative_id=id)
+    notification = get_list_or_404(Notification, system_id=id)
     return render(request, 'notification.html', {"nots": notification})
 
 def complete_account(request, id):
     user  = User.objects.get(pk=id)
     if request.method == "POST":
         forms = CooperativeForm(request.POST, request.FILES)
-        print(forms)
         if forms.is_valid():
             cooperative = forms.save(commit=False)
             cooperative.user = user
             cooperative.save()
 
-            village = cooperative.location_village
-            cell = cooperative.location_cell
+            village = ""
+            cell = ""
             sector = cooperative.location_sector
             district = cooperative.location_district
+            print(district)
             province = cooperative.location_province
 
             location = get_coordinates(village, cell, sector, district, province)
-
+            print(location)
             if location:
                 geolocation = Geolocation()
                 geolocation.cooperative = cooperative
-                geolocation.latitude = location.latitude
-                geolocation.longitude = location.longitude
+                geolocation.latitude = location['latitude']
+                geolocation.longitude = location['longitude']
                 geolocation.address = f"{village}, {cell}, {sector}, {district}, {province}, Rwanda"
                 geolocation.save()
             return redirect('login')
@@ -135,3 +135,42 @@ def add_mngt(request, id):
     
     return render(request, "add_mngt.html", {'form': form})
 
+
+def system(request, id):
+    cooperative = get_object_or_404(Cooperative, pk=id)
+
+    if request.method == 'POST':
+        forms = SystemForm(request.POST)
+        if forms.is_valid():
+            system = forms.save(commit=False)
+            system.cooperative = cooperative  # Link system to cooperative
+            system.save()
+
+            # Extract system data for the notification
+            temp = system.temperature_change
+            hum = system.humidity_change
+            fail_type = system.fail_type
+            status = system.failed
+            last_update = system.last_update.strftime("%Y-%m-%d %H:%M:%S") if system.last_update else "N/A"
+
+            # Create notification based on system status
+            notification = Notification()
+            notification.system = system
+            if status:  # Assuming `status=True` means the system has failed
+                notification.message = (
+                    f"System Failure Alert: Temperature: {temp}, "
+                    f"Humidity: {hum}, Failure Type: {fail_type}, Last Update: {last_update}"
+                )
+            else:  # System is functioning well but recorded changes
+                notification.message = (
+                    f"System Update: Temperature: {temp}, "
+                    f"Humidity: {hum}, Status Normal as of {last_update}"
+                )
+            notification.save()  # Save the notification
+
+            # Redirect to the specific notification detail or list view
+            return redirect(reverse('notification', kwargs={"id": system.id}))
+    else:
+        forms = SystemForm()  # Empty form on GET request
+    
+    return render(request, 'system.html', {'form': forms}) 
