@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'region_app',
-    'bootstrap5',
+  
 ]
 
 MIDDLEWARE = [
@@ -79,12 +79,12 @@ WSGI_APPLICATION = 'farm_sycn.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': "farmer_sycn",
-        "USER": "tuyisenge",
-        "PASSWORD": "tuyisenge2003",
-        "HOST": "localhost",
-        "PORT": 3306,
+        'ENGINE': '',
+        'NAME': "",
+        "USER": "",
+        "PASSWORD": "",
+        "HOST": "",
+        "PORT":"",
     }
 }
 

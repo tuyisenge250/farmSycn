@@ -1,75 +1,306 @@
-
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cooperative Geo Location</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <style>
-        body{
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            align-items: center;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="{% static 'landing_style.css'%}">
+<title>Efficient Stock Management for Your Cooperative</title>
+<style>
+  /* Global Styles */
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 90%
+  }
+
+  /* Header Styles */
+  header {
+    background-color: 466E50;
+    color: white;
+    padding: 20px;
+    text-align: center;
+
+  }
+
+  header h1 {
+    margin: 0;
+  }
+
+  /* Main Content Styles */
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px;
+  }
+
+  @keyframes scrollText {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(-100%);
+    }
+}
+  .features {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-bottom: 40px;
+  }
+
+  .feature {
+    text-align: center;
+    padding: 20px;
+  }
+
+  .feature img {
+    max-width: 100px;
+    margin-bottom: 20px;
+  }
+
+  .map {
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 40px;
+  }
+
+  .map img {
+    width: 100%;
+    height: auto;
+  }
+
+  .form {
+    width: 100%;
+    max-width: 400px;
+    background-color: #f1f1f1;
+    padding: 20px;
+    border-radius: 5px;
+  }
+
+  .form input[type=text] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  .form button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+  }
+
+  .feedback-section {
+    background-color: #eaf9f0;
+    padding: 30px;
+    margin: 0 auto; /* Centers the section */
+    width: 100%;
+    /* Ensures the section doesn't become too wide */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    text-align: center; /* Centers the text within the section */
+}
+
+.feedback-section h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.feedback-section p {
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: #555;
+    line-height: 1.5; /* Improves readability */
+}
+
+.feedback-section form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%; /* Takes the full width of the section */
+    max-width: 500px;
+    margin: 0 auto; /* Centers the form within the section */
+}
+
+.feedback-section input,
+.feedback-section textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box; /* Ensures padding doesn't affect width */
+}
+
+.feedback-section textarea {
+    resize: vertical; /* Allows users to resize the text area only vertically */
+}
+
+.feedback-section button {
+    background-color: #28a745;
+    color: #fff; /* Sets text color to white for contrast */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth hover effect */
+}
+
+.feedback-section button:hover {
+    background-color: #218838; /* Slightly darker green on hover */
+}
+
+
+        /* Footer */
+        .footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            width:100%
         }
-        #map {
-            width: 65%;
-            height: 500px;
+
+        .footer a {
+            color: white;
+            margin: 0 10px;
+            text-decoration: none;
+            font-size: 14px;
         }
-    </style>
-   
+
+        .footer img {
+            height: 40px;
+            margin-bottom: 10px;
+            align:left;
+        }
+
+</style>
 </head>
 <body>
-     
-    <h1>Cooperative Geo Location</h1>
-    <form action="" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="send">
-    </form>
-    <div id="map"></div>
- 
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script>
-        function initMap() {
-            let rwandaCenter = [-1.9403, 29.8739];
-            let zoomLevel = 8;
+    <header style="height:25px">
+        <div>
+            <img src="{% static 'images/logo_sycn.png' %}" alt="">
+        </div>
+        <div>
+            <ul>
+                <li><a href="{% url 'Home' %}">HOME</a></li>
+                <li><a href="#">STOCK</a></li>
+                <li><a href="#">Dashboard</a></li>
+            </ul>
+        </div>
+        <button>Login</button>
+    </header>
+    <main>
 
-            let map = L.map('map').setView(rwandaCenter, zoomLevel);
+        <section class="section1">
+            <div style="
+                       
+                       ">
+        
+                
+        
+                <!-- Content Layer -->
+                <div style="position: relative; z-index: 2; color: white;">
+                    <div style="align-items: center; gap: 15px;">
+                        <img src="{% static 'images/logo_sycn.png' %}" alt="FarmSync Logo" style="height: 180px;">
+                    </div>
+                    <h2 style="margin: 25px 0; font-size: 40px;">Efficient Stock Management for Your Cooperative</h2>
+                    <p style="font-size: 18px; margin:19;">Automate inventory, streamline sales, and optimize resources.</p>
+                </div>
+            </div>
+        </section>
 
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(map);
-
-            let rwandaBounds = [[-2.2, 29.0], [-1.3, 30.5]];  
-            map.setMaxBounds(rwandaBounds);
+        <section style="background-color: #f4f4f4; padding: 20px; overflow: hidden; position: relative; height: 30px;">
+            <div style="color: black; position: relative; height: 60px; overflow: hidden; display: flex; align-items: center;">
+                <div style="font-size: 35px; font-weight: bold; display: inline-block; white-space: nowrap; animation: scrollText 15s linear infinite;">
+                    Our system helps cooperatives and farmers manage their stock efficiently, track geolocation, and optimize product freshness.
+                </div>
+            </div>
+        </section>
+     <section>
+        <div style="background-color: white; text-align: center; padding: 20px;">
+            <!-- Watch DEMO Button -->
+            <button style="background-color: red; color: white; padding: 10px 20px; border: none; border-radius: 5px; font-size: 18px; cursor: pointer;">
+                Watch DEMO
+            </button>
             
-            let locationCoop = [
-                {% for addr in locationCoop %}
-                   {
-                       id: {{ addr.id }},
-                       name: "{{ addr.cooperative.user.full_name|escapejs }}",
-                       lat: -{{ addr.latitude }},
-                       lng: {{ addr.longitude }},
-                       description: "{{ addr.address|escapejs }}",
-                       url: "{% url 'overviews' addr.cooperative.id %}",  // Uncommented
-                   }{% if not forloop.last %},{% endif %}
-                {% endfor %}
-            ];
+            <!-- Subtitle Text -->
+            <p style="font-size: 20px; margin-top: 15px; color: #333;">
+                Monitor, manage, and update your cooperative’s stock levels with ease.
+            </p>
+        </div>
+    </section>
 
-            locationCoop.forEach(loc => {
-                let marker = L.marker([loc.lat, loc.lng]).addTo(map);
-                marker.bindPopup(`<b>${loc.name}</b><br>${loc.description}`);
+<div class="container">
+  <div class="features">
+    <div class="feature">
+      <img  src="{% static 'images/f1.png' %}"  alt="Automatic Inventory">
+      <h3>Store of Tomatoes</h3>
 
-                marker.addEventListener('click', () => {
-                    window.location.href = loc.url;
-                });
-            });
-        }
+    </div>
+    <div class="feature">
+      <img src="{% static 'images/f2.png' %}" alt="Demand Forecasting">
+      <h3>Product Table</h3>
+     
+    </div>
+    <div class="feature">
+      <img src="{% static 'images/f4.png' %}"  alt="Real-time Reporting">
+      <h3>Connection</h3>
+     
+    </div>
+  </div>
 
-        window.onload = initMap;
-    </script>
-</body>
-</html>
+  <div class="map">
+    <!--Map --> 
+  </div>
+  <button style="background-color:#F7C35F; color: white; padding: 10px 20px; border: none; border-radius: 50px; font-size: 18px; cursor: pointer;">
+    REGISTER HERE
+</button>
+  <!-- Feedback Section -->
+<div style="background-color: #eaf9f0; padding: 30px; font-family: Arial, sans-serif; text-align: center; width:100%">
+    <h2 style="font-size: 28px; color: #333; margin-bottom: 15px;">Feedback</h2>
+    <p style="font-size: 18px; color: #555; margin-bottom: 20px;">
+        We need to know how you feel about Our system <br>
+        <strong>Please!!! Share Your Feedback In Below Comment Box</strong>
+    </p>
+
+    <!-- Feedback Form -->
+    <form "margin: 0 auto; background-color: #fff12a; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);">
+        <label for="email" style="font-size: 16px; color: #333; display: block; margin-bottom: 8px;">Email:</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required
+               style="width:40%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;">
+
+        <label for="comment" style="font-size: 16px; color: #333; display: block; margin-bottom: 8px;">Comment:</label>
+        <textarea id="comment" name="comment" placeholder="Please Enter Your Message!" required
+                  style="width: 40%; padding: 10px; height: 100px; border: 1px solid #ccc; border-radius: 4px; resize: none; font-size: 14px;"></textarea>
+<br>
+        <button type="submit" style="margin-top: 15px; background-color: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;">
+            Send
+        </button>
+    </form>
+</div>
+
+ 
+<!-- Footer -->
+<div class="footer">
+    <img src="{% static 'images/logo_sycn.png' %}" alt="">
+<p style="font-size:20px">Automate inventory, streamline sales, and optimize resources.</p>
+<p><a href="#">Home</a>
+    <a href="#">About</a>
+    <a href="#">Stock</a>
+    <a href="#">Dashboard</a></p>
+<p>© 2024 TomatoTrack. All rights reserved.</p>
+</div>
