@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FarmSync Admin Dashboard</title>
+  <link rel="stylesheet" href="{% static 'dashboard/styles.css' %}?v={{ request.GET.timestamp|default:'1' }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ==" crossorigin="anonymous" referrerpolicy="no-referrer" /> 
+</head>
+<body>
+  <div class="dashboard">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="logo">
+        <img src="{% static 'dashboard/logo.png' %}" alt="FarmSync Logo">
+        <span>{% block title%}{% endblock %}</span>
+      </div>
+      <nav>
+        <ul>
+          <a href="{% url 'Admin' 1 %}"><li><i class="fa-solid fa-gauge-high"></i> Dashboard</li></a>
+          <a href="{% url 'adminuser' 1 %}"><li><i class="fa-regular fa-address-book"></i> Users</li></a>
+          <a href="{% url 'issues' 1%}"><li><i class="fa-solid fa-circle-xmark"></i> Issues</li></a>
+          <a href="{% url 'feedbacks' %}"><li><i class="fa-solid fa-comment"></i> Feedback <span class="badge">49</span></li></a>
+          <a href="{% url 'admin_notification' 1 %}"><li><i class="fa-solid fa-bell"></i> Notification</li></a>
+          <a href="{% url 'changes' 1 %}"><li><i class="fa-solid fa-pen"></i> Changes</li></a>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <section class="metrics">
+        <div class="metric">
+          <div class="icon purple"></div>
+          <p>{{ user_count }}+ <span>Needs Approval</span></p>
+        </div>
+        <div class="metric">
+          <div class="icon green"></div>
+          <p>{{ system_error }}+<span>System Errors</span></p>
+        </div>
+        <div class="metric">
+          <div class="icon pink"></div>
+          <p>{{ system }}+ <span>Work Well as Expected</span></p>
+        </div>
+        <div class="metric">
+          <div class="icon blue"></div>
+          <p>{{ system }}+ <span>Request for System</span></p>
+        </div>
+      </section>
+      {% block content %}
+      {% endblock %}
+    </main>
+  </div>
+</body>
+</html>

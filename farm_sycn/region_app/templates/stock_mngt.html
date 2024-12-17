@@ -1,27 +1,35 @@
-<h1>stock management full information</h1>
-<table>
-    <thead>
-        <tr>
-            <th>DATE</th>
-            <th>Quality</th>
-            <th>QUantity</th>
-            <th>REMAIN In Stock</th>
-            <th>DEO</th>
-            <th>Temperature</th>
-            <th>Status</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for stock in stocks %}
-          <tr>
-            <td>{{ stock.date }}</td>
-            <td>{{ stock.quantity }}KG</td>
-            <td>{{ stock.quality.name }}</td>
-            <td>{{ stock.total_quantity_quality}}</td>
-            <td>{{ stock.expired_date }}</td>
-            <td>{{  stock.cooperative.user.fullname }}</td>
-            <td>{{ stock.cooperative.contact }}</td>
-          </tr>
-        {% endfor %}
-    </tbody> 
-</table>
+{% extends 'base_dashboard.html' %}
+{% load static %}
+  {% block title%} Management {% endblock%}
+  {% block content %}
+    <section class="growth">
+      <table>
+          <thead>
+              <tr>
+                  <th>DATE</th>
+                  <th>Quality</th>
+                  <th>QUantity</th>
+                  <th>REMAIN In Stock</th>
+                  <th>DEO</th>
+                  <th>Temperature</th>
+                  <th>Status</th>
+              </tr>
+          </thead>
+          <tbody>
+              {% for stock in stocks %}
+                <tr>
+                  <td>{{ stock.date }}</td>
+                  <td>{{ stock.quantity }}KG</td>
+                  <td>{{ stock.quality.name }}</td>
+                  <td>{{ stock.total_quantity_quality}}</td>
+                  <td>{{ stock.expired_date }}</td>
+                  <td>{{  system.temperature_change }}</td>
+                  <td>{{ system.status }}</td>
+                </tr>
+              {% endfor %}
+          </tbody> 
+      </table>
+    </section>
+    <a href="{% url 'add' id %}"><button class="add_mng_btn">Add to Management</button></a>
+  {% endblock %}
+  

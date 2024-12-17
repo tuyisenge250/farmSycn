@@ -1,8 +1,96 @@
-<h1>complete accounting cooperative information</h1>
+{% load static %}
 
-<form action="" enctype="multipart/form-data" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Save">
-</form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmSync</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'signup.css' %}">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="left-section">
+                <img src="{% static 'images/logo_sycn.png' %}" alt="FarmSync Logo" class="logo">
+            </div>
+            <ul class="nav-links">
+                <li><a href="{% url 'Home' %}">Home</a></li>
+                <li><a href="{% url 'landing' %}">About</a></li>
+                <li><a href="#">Dashboard</a></li>
+            </ul>
+            <div class="contact">
+                <button>
+                    <i class="fa fa-phone"></i> Call Anytime<br>0790635120
+                </button>
+            </div>
+        </nav>
+    </header>
+    
+    <main>
+        <section class="signup">
+            <div class="form-container">
+                <h1>Complete your Account and pass Info</h1>
+                {% if error %}
+                    <p style="color: red; text-align: center;">{{error}}</p>
+                {% endif %}
+                <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <label for="trade_license">certificate of trade:</label>
+                    {{ form.trade_license }}
+                    <label for="members">Members:</label>
+                    {{ form.number_of_members }}
+                    <label for="date">Your Start Date(Y-M-D):</label>
+                    {{ form.started_date }}
+                    
+                    <label for="phone">other Contact available:</label>
+                    {{ form.contact }} 
+                    <label>Location Infomation</label>             
+                    <label for="village">village:</label>
+                    {{ form.location_village }}
+                   
+                    <label for="cell">Cell:</label>
+                    {{ form.location_cell }}
+                    <label for="sector">Sector:</label>
+                    {{ form.location_sector }}
+                    <label for="cell">District:</label>
+                    {{ form.location_district }}
+                    <label for="status">Province:</label>
+                    {{ form.location_province }}
+                    <label for="mission">cooperative Mission:</label>
+                    {{ form.mission }}
+                    <label for="vesion">cooperative Vision</label>
+                    {{ form.vesion }}
+                    <input type="submit" class="continue-btn" value="Continue" />
+                </form>
+                <div class="alt-signin">
+                    <div class="line"></div>
+                    <p>OR</p>
+                    <div class="line"></div>
+                </div>
+                <div class="signin-options">
+                    <button class="google-signin">
+                        <img src="{% static "images/gg.jpeg" %}" alt="Google Icon"> Sign in with Google
+                    </button>
+                    <button class="apple-signin">
+                        <img src="{% static "images/aa.jpeg" %}" alt="Apple Icon"> Sign in with Apple
+                    </button>
+                </div>
+                <br>
+            </div>
+            <div class="promo">
+                <h2>Create Your Account and</h2>
+                <h3>Grow with <span>Us</span></h3>
+                <img src="{% static "images/tom_sycn.png" %}" alt="Tomato Crate">
+            </div>
+           
+        </section>
+    </main>
+</body>
+</html>
+
+
+
  

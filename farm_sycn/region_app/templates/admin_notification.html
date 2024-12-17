@@ -1,0 +1,54 @@
+{% extends 'base_admin.html' %}
+{% load static %}
+{% block title %} Notification {% endblock %}
+{% block content %}
+<section class="noti">
+    <div class="messages">
+        <div class="head">
+            <p>Notification</p>
+            <button class="add">+</button> 
+        </div>
+        <div class="search">
+            <p>search</p>
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+        {% for noti in notification %}
+          <div class="message">
+            <h3>{{ noti.system.user.full_name }}</h3>
+            <p>{{ noti.title }}</p>
+            <p class="time">{{ noti.date }}</p>
+          </div>
+        {% endfor  %}
+    </div>
+    <div class="notiSystem">
+        {% for noti in notification %}
+          <div class="notification">
+            <p>{{ noti.truncated_message }}</p>
+            <button id="dis-message"><i class="fa-solid fa-ellipsis"></i></button>
+            <p class="not_message">{{noti.message}}</p>
+          </div>  
+        {% endfor %}
+        
+    </div>
+   </section>
+   <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const ellipsisIcons = document.querySelectorAll('.notification button');
+  
+      ellipsisIcons.forEach((icon) => {
+          icon.addEventListener('click', function () {
+              const notification = icon.closest('.notification');
+              
+              const message = notification.querySelector('.not_message');
+  
+              if (message.style.display === 'block') {
+                  message.style.display = 'none';  
+              } else {
+                  message.style.display = 'block';  
+              }
+          });
+      });
+    });
+  </script>
+  
+{% endblock %}

@@ -5,111 +5,112 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>first render</title>
-    <link rel="stylesheet" href="{% static 'landing_style.css'%}">
+    <title>Efficient Stock Management</title>
+    <link rel="stylesheet" href="{% static 'landing_style.css' %}">
 </head>
 <body>
-    <header>
-        <div>
-            <img src="{% static 'images/logo_sycn.png' %}" alt="">
+    <header class="header">
+        <div class="logo">
+            <img src="{% static 'images/logo_sycn.png' %}" alt="Logo">
         </div>
-        <div>
-            <ul>
-                <li><a href="{% url 'Home' %}">HOME</a></li>
-                <li><a href="#">STOCK</a></li>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="{% url 'Home' %}">Home</a></li>
+                <li><a href="#">Stock</a></li>
                 <li><a href="#">Dashboard</a></li>
             </ul>
+        </nav>
+        <div class="auth-button">
+            <a href="{% url 'signup' %}"><button>Sign In</button></a>
         </div>
-        <button>sign in</button>
     </header>
+
     <main>
-        <section class="section1">
-            <img src="{% static 'images/logo_sycn.png' %}" alt="logo">
-            <h2>Efficient Stock Management for
-                 Your Tomato Cooperative
-            </h2>
-            <h3>Automate inventory, streamline sales, and optimize resources.</h3>
-            <button>Get STARTED</button>
-            <h1>How Our System Works</h1>
-            <p>Our system simplifies cooperative 
-                stock management, ensuring real-time updates, secure sales 
-                tracking, and efficient inventory monitoring.</p>
-        </section>
-        <section class="section2">
-            <div>
-                <img src="{% static 'images/tom_sycn.png' %}" alt="">
-                <h2>Automatic Stock Input</h2>
-                <p>Seamlessly record tomato stock as it arrives, using embedded sensors to keep counts accurate.Seamlessly record tomato stock as it arrives, using embedded sensors to keep counts accurate.</p>
-            </div>
-            <div>
-                <img src="{% static 'images/sales _sycn.png' %}" alt="">
-                <h2>Efficient Sales 
-                    Logging
-                </h2>
-                <p>
-                    Easily log each sale to automatically update stock levels and maintain an accurate sales history. This feature allows you to keep a detailed record of each transaction, enhancing accountability and transparency within the cooperative."
-                </p>
-            </div>
-            <div>
-                <img src="{% static 'images/alter_sycn.png' %}" alt="">
-                <h2>Inventory Monitoring & Alerts</h2>
-                <p>Stay informed with automated notifications for low stock or expiring products. This proactive alert system helps you manage inventory efficiently, preventing shortages and waste while ensuring that your stock is always ready to meet demand.</p>
-            </div>
-        </section >
-        <section class="section3">
-            <h2>Testimonials</h2>
-            <div>
-                <img src="{% static 'images/african_farmer_sycn.webp' %}" alt="">
-                <div>
-                    <p>Alice B., Cooperative Manager</p>
-                    <p>
-                        "Our stock management has become much simpler and more reliable! 
-                        The real-time updates have been a game-changer for our cooperative."
-                    </p>
-               </div>
-            </div>
-            <div>
-                <img src="{% static 'images/african_test_sycn.webp' %}" alt="">
-                <div>
-                    <p>Samuel N., Operations Supervisor</p>
-                    <p>Since using this system, we've seen a noticeable decrease in waste and an increase in our productivity. It's a must-have for any cooperative!</p>
-                </div>
-            </div>
-            <div>
-                <img src="{% static 'images/african_test2_sycn.webp' %}" alt="">
-                <div>
-                    <p>Diane R., Inventory Manager</p>
-                    <p>"With accurate data at our fingertips, we can make better decisions about purchasing and managing inventory. Highly recommend it!"</p>
-                </div>
-            </div>
-        </section>
-        <section class="section3">
-            <p>
-                Frequently Asked Questions
+        <!-- Section 1: Hero -->
+        <section class="hero">
+            <img src="{% static 'images/logo_sycn.png' %}" alt="Logo" class="hero-logo">
+            <h1>Efficient Stock Management for Your Tomato Cooperative</h1>
+            <p class="hero-subtitle">
+                Automate inventory, streamline sales, and optimize resources.
             </p>
-            <div>
-                <p>How accurate is the inventory monitoring?</p>
-                <p>Our system provides real-time 
-                    inventory updates with an accuracy of over 95%, ensuring you always
-                     have an accurate count of your stock.</p>
+            <a href="{% url 'Home' %}" class="cta-button">Get Started</a>
+        </section>
+
+        <!-- Section 2: Features -->
+        <section class="features">
+            <h2>How Our System Works</h2>
+            <p class="features-description">
+                Our system simplifies cooperative stock management, ensuring real-time updates, secure sales tracking, and efficient inventory monitoring.
+            </p>
+            <div class="feature-cards">
+                <div class="feature-card">
+                    <img src="{% static 'images/tom_sycn.png' %}" alt="Stock Input">
+                    <h3>Automatic Stock Input</h3>
+                    <p>
+                        Seamlessly record tomato stock as it arrives, using embedded sensors to keep counts accurate.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <img src="{% static 'images/sales.png' %}" alt="Sales Logging">
+                    <h3>Efficient Sales Logging</h3>
+                    <p>
+                        Easily log each sale to automatically update stock levels and maintain an accurate sales history.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <img src="{% static 'images/alter_sycn.png' %}" alt="Monitoring & Alerts">
+                    <h3>Inventory Monitoring & Alerts</h3>
+                    <p>
+                        Stay informed with automated notifications for low stock or expiring products.
+                    </p>
+                </div>
             </div>
-            <div>
-                <p>Can I customize the alert settings?</p>
-                <p>
-                    Yes! You can tailor alert settings to your needs, including thresholds for low stock notifications and reminders for expiring products.
-                </p>
+        </section>
+
+        <!-- Section 3: Testimonials -->
+        <section class="testimonials">
+            <h2>What Our Users Say</h2>
+            <div class="testimonial-cards">
+                <div class="testimonial-card">
+                    <img src="{% static 'images/african_farmer_sycn.webp' %}" alt="Alice">
+                    <p class="user-name">Alice B., Cooperative Manager</p>
+                    <p>"Our stock management has become much simpler and more reliable! The real-time updates have been a game-changer."</p>
+                </div>
+                <div class="testimonial-card">
+                    <img src="{% static 'images/african_test_sycn.webp' %}" alt="Samuel">
+                    <p class="user-name">Samuel N., Operations Supervisor</p>
+                    <p>"We've seen a noticeable decrease in waste and an increase in productivity. It's a must-have for any cooperative!"</p>
+                </div>
+                <div class="testimonial-card">
+                    <img src="{% static 'images/african_test2_sycn.webp' %}" alt="Diane">
+                    <p class="user-name">Diane R., Inventory Manager</p>
+                    <p>"With accurate data at our fingertips, we can make better decisions about purchasing and managing inventory."</p>
+                </div>
             </div>
-            <div>
-                <p>How secure is my data?</p>
+        </section>
+
+        <section class="faq">
+            <h2>Frequently Asked Questions</h2>
+            <div class="faq-item">
+                <h3>How accurate is the inventory monitoring?</h3>
+                <p>Our system provides real-time inventory updates with an accuracy of over 95%, ensuring you always have an accurate count of your stock.</p>
+            </div>
+            <div class="faq-item">
+                <h3>Can I customize the alert settings?</h3>
+                <p>Yes! You can tailor alert settings to your needs, including thresholds for low stock notifications and reminders for expiring products.</p>
+            </div>
+            <div class="faq-item">
+                <h3>How secure is my data?</h3>
                 <p>We prioritize your data security with robust encryption methods and regular backups to ensure your information is safe and secure.</p>
             </div>
-            <div>
-                <p>What devices can I access the system on?</p>
+            <div class="faq-item">
+                <h3>What devices can I access the system on?</h3>
                 <p>The system is web-based and can be accessed on any device with an internet connection, including smartphones, tablets, and computers.</p>
             </div>
         </section>
     </main>
-    <footer>
+
+    <footer class="footer">
         <p>© 2024 TomatoTrack. All rights reserved</p>
     </footer>
 </body>

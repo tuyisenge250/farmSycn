@@ -1,0 +1,104 @@
+{% extends 'base_admin.html' %}
+{% load static %}
+{% block title %} Admin {% endblock %}
+{% block content %} 
+<section class="graph">
+  <h2>Report of System</h2>
+  <div class="chart">
+    <canvas id="lineChart" style="width: 100%;"></canvas>
+  </div>
+</section>
+
+<section class="table-section">
+  <h2>Changes Occur</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>System Number</th>
+        <th>Failed Part</th>
+        <th>Temp</th>
+        <th>Level of Change</th>
+        <th>Direct Effect</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for sys in recent_systems %}
+      <tr>
+        <td>{{ sys.id }}</td>
+        <td> {{ sys.fail_type.name }} </td> <!--<img src="{% static 'dashboard/camera_lens.png' %}" alt="Camera Lens"> -->
+        <td>{{ sys.temperature_change }}</td>
+        <td class="high">{{ sys.status }}</td>
+        <td>{{ sys.humidity_change }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const systemData = JSON.parse('{{ system_info|safe }}');
+  const temperatureData = systemData.map(data => data.temperature_change);
+  console.log(temperatureData);
+  const timeData = systemData.map(data => data.last_update);
+  console.log(timeData);
+
+  const ctx = document.getElementById('lineChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: timeData, // X-axis: Timestamps
+      datasets: [{
+        label: 'Temperature (°C)',
+        data: temperatureData, // Y-axis: Temperature values
+        borderColor: '#466E50',
+        backgroundColor: 'rgba(70, 110, 80, 0.2)',
+        borderWidth: 2,
+        tension: 0.4,
+        fill: true,
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          display: true,
+          position: 'top',
+        },
+      },
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: 'Time',
+            font: { size: 14 },
+          }
+        },
+        y: {
+          title: {
+            display: true,
+            text: 'Temperature (°C)',
+            font: { size: 14 },
+          },
+          beginAtZero: false,
+        }
+      },
+      // Add the onClick event inside the options object
+      onClick: (event, chartElement) => {
+        // Check if a point (element) is clicked
+        if (chartElement.length > 0) {
+          // Get the index of the clicked point
+          const index = chartElement[0].index;
+          const time = timeData[index]; // Get the time label of the clicked point
+          
+          // Define a URL based on the clicked point (e.g., a details page)
+          const url = `/adminissues/1`; // Adjust this URL as needed
+
+          // Redirect the user to the details page
+          window.location.href = url;
+        }
+      }
+    }
+  });
+  </script>
+ {% endblock %}
+

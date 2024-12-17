@@ -1,22 +1,108 @@
-<h1>User DashBord</h1>
-<h2>{{ dashboard.name }}</h2>
-<div>
-    <h2>cooperative</h2>
-    <h4>{{ dashboard.coop_info.number_of_member }}</h4>
-    <h4>{{ dashboard.coop_info.location }}</h4>
-</div>
-<div>
-    <h2>stock</h2>
-    {% for trans in dashboard.management %}
-       <h1>{{ trans.total_quantity_quality }}</h1>
-       <p>{{ trans.date }}</p>
-    {% endfor %}
-</div>
-<div>
-    <h2>system status</h2>
-    {% for system in dashboard.system_info %}
-      <h3>{{ system.temperature_change }}</h3>
-      <h3>{{ system.humidity_change }}</h3>
-      <p>{{ system.failed }}</p>
+{% extends 'base_dashboard.html' %}
+{% load static %}
+
+{% block title %} Manager Dashboard {% endblock %}
+
+{% block content %}
+<section class="growth">
+  <div class="transiction">
+    <div class="description">
+      <h3>Recent Changes</h3>
+      <div class="icon">
+        <p>DESCRIPTION</p>
+        <p>STATUS</p>
+      </div>
+      {% for sys in system_info %}
+      <div class="icons">
+        <i class="fa-solid fa-temperature-full"></i>
+        <div class="commet">
+          <p>Change description: {{ sys.temperature_change }}</p>
+          <p><span>Date of update: {{ sys.last_update }}</span></p>
+        </div>
+        <button>{{ sys.status }}</button>
+      </div>
       {% endfor %}
-</div>
+    </div>
+  </div>
+
+  <div class="data">
+    <h4>Graph of Temperature Variation</h4>
+    <canvas id="lineChart"></canvas>
+  </div>
+
+  <div class="products">
+    <div class="product">
+      <img src="{% static 'images/temperature_img.png' %}" alt="">
+      <p>Temperature</p>
+      <i class="fa-regular fa-ellipsis-vertical"></i>
+    </div>
+    <div class="product">
+      <img src="{% static 'images/humidity.png' %}" alt="">
+      <p>Humidity</p>
+      <i class="fa-regular fa-ellipsis-vertical"></i>
+    </div>
+    <div class="product">
+      <img src="{% static 'images/storage.png' %}" alt="">
+      <p>Consumption</p>
+      <i class="fa-regular fa-ellipsis-vertical"></i>
+    </div>
+    <div class="product">
+      <img src="{% static 'images/product_management.png' %}" alt="">
+      <p>Storage</p>
+      <i class="fa-regular fa-ellipsis-vertical"></i>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</section>
+
+<script>
+  const systemData = JSON.parse('{{ system|safe }}');
+  const temperatureData = systemData.map(data => data.temperature_change);
+  console.log(temperatureData);
+  const timeData = systemData.map(data => data.last_update);
+  console.log(timeData)
+  const ctx = document.getElementById('lineChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: timeData, // X-axis: Timestamps
+      datasets: [{
+        label: 'Temperature (°C)',
+        data: temperatureData, // Y-axis: Temperature values
+        borderColor: '#466E50',
+        backgroundColor: 'rgba(70, 110, 80, 0.2)',
+        borderWidth: 2,
+        tension: 0.4,
+        fill: true,
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          display: true,
+          position: 'top',
+        },
+      },
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: 'Time',
+            font: { size: 14 },
+          }
+        },
+        y: {
+          title: {
+            display: true,
+            text: 'Temperature (°C)',
+            font: { size: 14 },
+          },
+          beginAtZero: false,
+        }
+      },
+    }
+  });
+</script>
+{% endblock %}

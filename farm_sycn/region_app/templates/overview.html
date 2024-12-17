@@ -1,15 +1,202 @@
-{% if cooperative_info %}
-   {% with coop=cooperative_info %}
-   <h1>Name: {{ coop.user.full_name }}</h1>
-   <h2> contact: {{ coop.contact }}</h2>
-   <h2>start_up_date: {{ coop.start_date }}</h2>
-   <p>location : {{ coop.location }}</p>
-   <h1>member of cooperation: {{ coop.number_of_member }}</h1>
-   <a href="{{ coop.trade_license.url }}" target="_blank">{{ coop.trade_license.name }}</a>
-   {% with stocks=coop.stock_management_set.all %}
-   {% for stock in stocks%}
-      <h3>total Stock: {{ stock.quality.name }} -> {{ stock.total_quantity_quality }}</h3>
-      {% endfor %}
-   {% endwith %}
-   {% endwith %}
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cooperative Info</title>
+    <link rel="stylesheet" href="{% static 'manager.css' %}?v={{ request.GET.timestamp|default:'1' }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('../static/images/background_sycn.png'); 
+            color: #f4f4f9;
+            line-height: 1.6;
+            background-size: cover;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #2e553c; /* Slightly lighter dark green */
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        h1, h2, h3 {
+            color: #a8ff9c; /* Light green accent */
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+
+        .section {
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            background: #3a6549; /* Another layer of green for grouping */
+        }
+
+        .section:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin: 10px 0;
+            padding: 10px;
+            background: #4b7b5d;
+            border-radius: 8px;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .info-item {
+            flex: 1 1 45%;
+            text-align: left;
+            margin: 10px;
+            color: #d4efd7;
+        }
+
+        .info-item i {
+            color: #a8ff9c;
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 10px 15px;
+            font-size: 1rem;
+            color: #fff;
+            background-color: #4b7b5d;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #6a9c75;
+        }
+
+        .stocks {
+            padding: 15px;
+            background-color: #3a6549;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .stock-item {
+            margin-bottom: 15px;
+            font-size: 1rem;
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            background: #4b7b5d;
+            border-radius: 8px;
+            
+        }
+
+        .stock-item i {
+            color: #a8ff9c;
+        }
+
+        .message {
+            font-size: 1.1rem;
+            color: #a8ff9c;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .info-item {
+                flex: 1 1 100%;
+            }
+
+            .stock-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        {% if cooperative_info %}
+        {% with coop=cooperative_info %}
+        <div class="section">
+            <h1><i class="fa-solid fa-leaf"></i> Cooperative Name: {{ coop.user.full_name }}</h1>
+            <div class="info-group">
+                <div class="info-item">
+                    <i class="fa-solid fa-phone"></i>
+                    <strong>Contact:</strong> {{ coop.contact }}
+                </div>
+                <div class="info-item">
+                    <i class="fa-solid fa-calendar-days"></i>
+                    <strong>Start-up Date:</strong> {{ coop.started_date }}
+                </div>
+                <div class="info-item">
+                    <i class="fa-solid fa-users"></i>
+                    <strong>Members:</strong> {{ coop.number_of_members }}
+                </div>
+                <div class="info-item">
+                    <i class="fa-solid fa-map-marker-alt"></i>
+                    <strong>Location:</strong> 
+                    {{ coop.location_village }}, 
+                    {{ coop.location_cell }}, 
+                    {{ coop.location_sector }} - 
+                    {{ coop.location_district }}, 
+                    {{ coop.location_province }}
+                </div>
+            </div>
+            <a href="{{ coop.trade_license.url }}" target="_blank">
+                <button><i class="fa-solid fa-file-pdf"></i> View Trade License</button> 
+            </a>
+        </div>
+
+        <div class="section">
+            <h2><i class="fa-solid fa-seedling"></i> Mission and Vision</h2>
+            <p><strong>Vision:</strong> {{ coop.vesion }}</p>
+            <p><strong>Mission:</strong> {{ coop.mission }}</p>
+        </div>
+<div style="padding: 20px; background: #3a6549; border-radius: 8px; margin-top: 20px;">
+    <h2 style="color: #a8ff9c; margin-bottom: 15px;">
+        <i class="fa-solid fa-warehouse" style="margin-right: 10px;"></i> Stock Management
+    </h2>
+    {% for metric in metrics %}
+    <div style="display: flex; align-items: center; justify-content: space-between; padding: 15px; margin-bottom: 15px; background: #4b7b5d; border-radius: 8px;">
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <i class="{{ metric.icon_class }}" style="font-size: 2rem; color: #a8ff9c;"></i>
+            <div>
+                <p style="margin: 0; color: #d4efd7; font-weight: bold;">{{ metric.name }}</p>
+                {% if metric.data %}
+                <p style="margin: 5px 0 0; color: #f4f4f9;">Expired Date: {{ metric.data.1 }}</p>
+                {% else %}
+                <p style="margin: 5px 0 0; color: #f4f4f9;">Expired Date: N/A</p>
+                {% endif %}
+            </div>
+        </div>
+        <div style="text-align: right;">
+            {% if metric.data %}
+            <p style="margin: 0; color: #d4efd7;">Total Sold (kg)</p>
+            <h2 style="margin: 5px 0 0; color: #a8ff9c;">{{ metric.data.0 }}</h2>
+            {% else %}
+            <p style="margin: 0; color: #d4efd7;">No Quantity</p>
+            <h2 style="margin: 5px 0 0; color: #a8ff9c;">0</h2>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endwith %}
 {% endif %}
+</body>
+</html>

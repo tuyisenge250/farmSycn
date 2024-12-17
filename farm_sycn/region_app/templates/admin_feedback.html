@@ -1,0 +1,209 @@
+{% extends 'base_admin.html' %}
+{% load static %}
+{% block title %} Notification {% endblock %}
+{% block content %}
+
+<style>
+    /* Main Notification Section */
+    .noti {
+        display: flex;
+        justify-content: space-between;
+        padding: 20px;
+        font-family: Arial, sans-serif;
+    }
+
+    /* Messages List Section */
+    .messages {
+        width: 40%;
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 15px;
+        overflow-y: auto;
+        max-height: 500px;
+    }
+
+    .messages .head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .messages .search {
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+    }
+
+    .messages .search p {
+        margin: 0;
+        margin-right: 10px;
+        font-weight: bold;
+    }
+
+    .messages .message {
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+
+    .messages .message:hover {
+        background-color: #e2e6ea;
+    }
+
+    .messages h3 {
+        margin: 0;
+        font-size: 16px;
+        color: #007bff;
+    }
+
+    .messages p {
+        margin: 5px 0;
+        color: #666;
+    }
+
+    .messages .time {
+        font-size: 12px;
+        color: #999;
+    }
+
+    /* Feedback Section */
+    .feedback {
+        width: 55%;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+    }
+
+    .empty-feedback {
+        text-align: center;
+        color: #aaa;
+        font-size: 18px;
+        margin-top: 50px;
+    }
+
+    .feedback-content {
+        display: none;
+    }
+
+    .feedback-content h3 {
+        margin: 0;
+        font-size: 18px;
+        color: #007bff;
+    }
+
+    .feedback-content p.time {
+        font-size: 12px;
+        color: #999;
+    }
+
+    .feedback-content h2 {
+        margin-top: 10px;
+        font-size: 20px;
+        color: #333;
+    }
+
+    textarea {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    .send-button {
+        margin-top: 10px;
+        padding: 8px 15px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .send-button:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+<section class="noti">
+    <!-- Messages Section -->
+    <div class="messages">
+        <div class="head">
+            <p>Messages</p>
+            <button class="add">+</button>
+        </div>
+        <div class="search">
+            <p>Search</p>
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+        {% for message in messages %}
+        <div class="message" data-email="{{ message.email }}"
+             data-title="{{ message.title }}"
+             data-date="{{ message.date }}"
+             data-comment="{{ message.comment }}"
+             data-id="{{ message.id }}">
+            <h3>{{ message.email }}</h3>
+            <p class="time">{{ message.date }}</p>
+        </div>
+        {% empty %}
+        <p>No messages available.</p>
+        {% endfor %}
+    </div>
+
+    <!-- Feedback Section -->
+    <div class="feedback">
+        <div class="empty-feedback">
+            <p>Select a message to view its details here.</p>
+        </div>
+        <div class="feedback-content">
+            <div class="message-details">
+                <h3 id="feedback-email"></h3>
+                <p class="time" id="feedback-date"></p>
+            </div>
+            <h2 id="feedback-title"></h2>
+            <div>
+                <p id="feedback-comment"></p>
+            </div>
+
+            <!-- Reply Form -->
+            <form method="POST" id="reply-form">
+                {% csrf_token %}
+                <input type="hidden" name="message_id" id="message-id" />
+                <textarea name="reply" rows="3" placeholder="Type your reply..." required></textarea>
+                <button type="submit" class="send-button">Send Reply</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const messages = document.querySelectorAll('.messages .message');
+        const feedbackContent = document.querySelector('.feedback-content');
+        const emptyFeedback = document.querySelector('.empty-feedback');
+        const feedbackEmail = document.getElementById('feedback-email');
+        const feedbackDate = document.getElementById('feedback-date');
+        const feedbackTitle = document.getElementById('feedback-title');
+        const feedbackComment = document.getElementById('feedback-comment');
+        const messageIdField = document.getElementById('message-id');
+
+        messages.forEach((message) => {
+            message.addEventListener('click', function () {
+                feedbackEmail.textContent = message.getAttribute('data-email');
+                feedbackDate.textContent = message.getAttribute('data-date');
+                feedbackTitle.textContent = message.getAttribute('data-title');
+                feedbackComment.textContent = message.getAttribute('data-comment');
+                messageIdField.value = message.getAttribute('data-id');
+
+                emptyFeedback.style.display = 'none';
+                feedbackContent.style.display = 'block';
+            });
+        });
+    });
+</script>
+
+{% endblock %}

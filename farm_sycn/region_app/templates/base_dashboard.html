@@ -1,0 +1,86 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}  {% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'manager.css' %}?v={{ request.GET.timestamp|default:'1' }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Doto:wght@100..900&family=Happy+Monkey&family=Orbitron:wght@700&family=Oswald:wght@200..700&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+  <div class="dashboard">
+    <aside class="sidebar">
+      <div class="logo">
+        <img src="{% static 'images/logo_sycn.png' %}" alt="FarmSync Logo">
+        <span>FarmSync</span>
+      </div>
+      <nav>
+        <ul>
+          <a href="{% url 'dashboard' id %}"><li>Dashboard</li></a>
+          <a href="{% url 'management' id %}"><li>Stock</li></a>
+          <a href="{% url 'profile' id %}"><li>Profile</li></a>
+          <a href="{% url 'dashboard_system' id %}"><li>System</li></a>
+        </ul>
+      </nav>
+      <a href="#" class="logout">Logout</a>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div class="controls">
+          <span class="mode-toggle">🌙</span>
+          <a href="{% url 'notification' id %}"><span class="notifications">🔔<span class="badge">{{ notiValue }}</span></span></a>
+        </div>
+        <div class="search">
+          <form action="">
+            <input type="text" placeholder="Search...">
+            <input type="submit" value="search">
+          </form>
+        </div>
+        <div class="profile">
+          <a href="{% url 'profile' id %}"><i class="fa-solid fa-user-circle" style="font-size: 40px; color: #555;"></i></a>
+          <span>{{ dashboard.name }}</span>
+        </div>
+      </header>
+
+      <h1>Welcome to Dashboard, Manager {{ dashboard.name }}</h1>
+      
+      <section class="metrics">
+        {% for metric in metrics %}
+        <div class="metric">
+            <div>
+                <i class="{{ metric.icon_class }}" style="width: 50px; height: auto;"></i>
+                <span>{{ metric.name }}</span>
+            </div>
+            {% if not metric.data %}
+            <div class="franc">
+                <p>Total Sold (kg)</p>
+                <h2>0</h2>
+            </div>
+            <span>Expired Date</span>
+            <span>No quantity</span>
+            {% else %}
+            <div class="franc">
+                <p>Total Sold (kg)</p>
+                <h2>{{ metric.data.0 }}</h2>
+            </div>
+            <span>Expired Date</span>
+            <span>{{ metric.data.1 }}</span>
+            {% endif %}
+            <div class="icon {{ metric.color }}"></div>
+        </div>
+        {% endfor %}
+      </section>
+      
+      <section>
+        {% block content %}
+        {% endblock %}
+      </section>
+    </main>
+  </div>
+</body>
+</html>

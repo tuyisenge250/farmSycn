@@ -1,0 +1,29 @@
+{% extends 'base_dashboard.html'%}
+{% load static %}
+{% block title %} System Information {% endblock %}
+{% block content %}
+  <section class="growth">
+    <table>
+        <thead>
+            <tr>
+                <th>Temperature</th>
+                <th>Humidity</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Fail_type</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sys in system %}
+              <tr>
+                <td>{{ sys.temperature_change }}</td>
+                <td>{{ sys.humidity_change }}</td>
+                <td>{{ sys.last_update }}</td>
+                <td>{{ sys.status }}</td>
+                <td>{{ sys.fail_type.name }}</td>
+              </tr>
+            {% endfor %}
+        </tbody> 
+    </table>
+  </section>
+{% endblock %}

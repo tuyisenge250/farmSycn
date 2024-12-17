@@ -2,13 +2,18 @@ from django.db import models
 from django.utils import timezone
 
 class User(models.Model):
+    roles = [
+        ('manager', "cooperative managers"),
+        ('AD', "admin")
+    ]
     full_name = models.CharField(max_length=100, unique=True)
     abv_name = models.CharField(max_length=15)
-    email = models.EmailField(max_length=60)
+    email = models.EmailField(max_length=60,)
     phone = models.CharField(max_length=10)
     password = models.CharField(max_length=255)
     number_managers = models.IntegerField()
     status = models.CharField(max_length=50)
+    role = models.CharField(max_length=50, choices=roles, null=True)
 
     def __str__(self):
         return self.full_name
@@ -24,8 +29,8 @@ class Cooperative(models.Model):
     location_district = models.CharField(max_length=60, null=True, blank=True)
     location_province = models.CharField(max_length=60, null=True, blank=True)
     started_date = models.DateField()
-    vesion = models.TextField(null=True)
-    mission = models.TextField(null=True)
+    vesion = models.TextField(max_length=500, null=True)
+    mission = models.TextField(max_length=500, null=True)
 
     def __str__(self):
         return f"{self.user.full_name}"
@@ -48,7 +53,7 @@ class Stock_management(models.Model):
     cooperative = models.ForeignKey(Cooperative, on_delete=models.CASCADE)
     quality = models.ForeignKey(Quality, on_delete=models.CASCADE)
     quantity = models.IntegerField()
-    date = models.DateTimeField()
+    date = models.DateTimeField(default=timezone.now)
     expired_date = models.DateTimeField()
     total_quantity_quality = models.IntegerField()
     flows_ch = models.CharField(max_length=50, choices=[("IN", "Input Stock"), ("OUT", "Output Stock")],default="IN")
@@ -73,19 +78,22 @@ class Fail_type(models.Model):
 
 class System(models.Model):
     cooperative = models.ForeignKey(Cooperative, on_delete=models.CASCADE)
-    fail_type = models.ManyToManyField(Fail_type, null=True)
+    fail_type = models.ManyToManyField(Fail_type)
     status = models.CharField(max_length=20)
     temperature_change = models.DecimalField(decimal_places=3,max_digits=10)
     humidity_change = models.DecimalField(decimal_places=3,max_digits=10)
-    last_update = models.DateTimeField()
-    failed = models.BooleanField()
-   
+    last_update = models.DateTimeField(default=timezone.now)
+    failed = models.BooleanField(default=False)  
+    resolved = models.BooleanField(default=False)  
+    resolution_steps = models.TextField(null=True, blank=True)  
+    resolved_by = models.CharField(max_length=100, null=True, blank=True)  
+    resolved_at = models.DateTimeField(null=True, blank=True, default=timezone.now)  
 
     def __str__(self):
         return f"Temp: {self.temperature_change} hum: {self.humidity_change}"
 
 class Notification(models.Model):
-    system = models.ForeignKey(System, on_delete=models.CASCADE)
+    system = models.ForeignKey(Cooperative, on_delete=models.CASCADE)
     message = models.TextField(max_length=500)
     status = models.CharField(max_length=100)
     date = models.DateTimeField(default=timezone.now)
@@ -96,7 +104,8 @@ class Notification(models.Model):
 class Message(models.Model):
     email = models.CharField(max_length=100)
     comment = models.TextField(max_length=500)
-    reply = models.TextField(max_length=500)
+    reply = models.TextField(max_length=500, null=True)
+    date = models.DateTimeField(default=timezone.now)
     def __str__(self):
         return self.comment
     

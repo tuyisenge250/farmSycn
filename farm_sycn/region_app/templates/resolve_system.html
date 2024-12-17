@@ -1,0 +1,9 @@
+<h1>Resolve System Issue</h1>
+<p>System: {{ system.cooperative.name }}</p>
+<p>Failure Type: {{ system.fail_type }}</p>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Resolve</button>
+</form>

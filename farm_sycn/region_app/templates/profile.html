@@ -1,0 +1,57 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %} Profile {% endblock %}
+
+{% block content %}
+<div style="max-width: 900px; margin: 0 auto; padding: 20px; background: #fff; border-radius: 12px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); text-align: center;">
+  {% if cooperative_info %}
+    {% with coop=cooperative_info %}
+    <div style="padding: 20px; border-radius: 8px; background: #f8f8f8;">
+      <h1 style="color: #333; margin-bottom: 10px;">
+        <i class="fa-solid fa-leaf"></i> Cooperative Name: {{ coop.user.full_name|default:"N/A" }}
+      </h1>
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; padding: 10px; background: #fff; border-radius: 8px; box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);">
+        <div style="flex: 1 1 45%; text-align: left; color: #555;">
+          <i class="fa-solid fa-phone" style="color: #333; margin-right: 10px;"></i>
+          <strong>Contact:</strong> {{ coop.contact|default:"N/A" }}
+        </div>
+        <div style="flex: 1 1 45%; text-align: left; color: #555;">
+          <i class="fa-solid fa-calendar-days" style="color: #333; margin-right: 10px;"></i>
+          <strong>Start-up Date:</strong> {{ coop.started_date|date:"F j, Y"|default:"Unknown" }}
+        </div>
+        <div style="flex: 1 1 45%; text-align: left; color: #555;">
+          <i class="fa-solid fa-users" style="color: #333; margin-right: 10px;"></i>
+          <strong>Members:</strong> {{ coop.number_of_members|default:"N/A" }}
+        </div>
+        <div style="flex: 1 1 45%; text-align: left; color: #555;">
+          <i class="fa-solid fa-map-marker-alt" style="color: #333; margin-right: 10px;"></i>
+          <strong>Location:</strong> 
+          {{ coop.location_village|default:"N/A" }},
+          {{ coop.location_cell|default:"N/A" }},
+          {{ coop.location_sector|default:"N/A" }} -
+          {{ coop.location_district|default:"N/A" }},
+          {{ coop.location_province|default:"N/A" }}
+        </div>
+      </div>
+      {% if coop.trade_license %}
+      <a href="{{ coop.trade_license.url }}" target="_blank">
+        <button style="padding: 10px 15px; font-size: 1rem; color: #fff; background-color: #333; border: none; border-radius: 5px; cursor: pointer; transition: background-color 0.3s;">
+          <i class="fa-solid fa-file-pdf"></i> View Trade License
+        </button>
+      </a>
+      {% endif %}
+    </div>
+
+    <div style="padding: 20px; border-radius: 8px; background: #f8f8f8;">
+      <h2 style="color: #333; margin-bottom: 10px;">
+        <i class="fa-solid fa-seedling"></i> Mission and Vision
+      </h2>
+      <p style="font-size: 1rem; margin-bottom: 10px;"><strong>Vision:</strong> {{ coop.vision|default:"N/A" }}</p>
+      <p style="font-size: 1rem; margin-bottom: 10px;"><strong>Mission:</strong> {{ coop.mission|default:"N/A" }}</p>
+    </div>
+    {% endwith %}
+  {% else %}
+    <p style="color: #333; font-size: 1.2rem;">No cooperative information available.</p>
+  {% endif %}
+</div>
+{% endblock %}

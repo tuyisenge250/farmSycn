@@ -1,5 +1,59 @@
-<h1>Notification Table</h1>
-{% for noti in nots%}
-   <p>{{noti.date}}</p>
-   <p>{{noti.message}}</p>
-{% endfor %}
+{% extends 'base_dashboard.html' %}
+{% load static %}
+
+{% block title %}Manager Dashboard{% endblock %}
+
+{% block content %}
+<section class="noti">
+  <div class="messages">
+    <div class="head">
+      <p>Notifications</p>
+      <button class="add">+</button>
+    </div>
+    <div class="search">
+      <p>Search</p>
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </div>
+    {% for noti in notifications %}
+    <div class="message" onclick="showNotification({{ forloop.counter0 }})" data-id="{{ noti.id }}">
+      <h3>{{ noti.truncated_message }}</h3>
+      <div>
+        <p>{{ noti.status }}</p>
+        <p class="time">{{ noti.date }}</p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="notiSystem">
+    {% if active_notification %}
+    <p id="activeMessage">{{ active_notification.message }}</p>
+    {% else %}
+    <p>No active notification.</p>
+    {% endif %}
+  </div>
+</section>
+
+<script>
+  const messages = document.querySelectorAll('.message');
+  const activeMessage = document.getElementById('activeMessage');
+
+  function showNotification(index) {
+    const selectedMessage = messages[index];
+    const messageDetails = selectedMessage.querySelector('h3').innerText;
+
+    activeMessage.innerText = messageDetails;
+
+    messages.forEach((msg) => msg.classList.remove('active'));
+    selectedMessage.classList.add('active');
+  }
+</script>
+
+<style>
+  .message.active {
+    background: #eef3f9;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border-left: 4px solid #2e86c1;
+  }
+</style>
+{% endblock %}

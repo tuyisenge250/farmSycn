@@ -1,4 +1,4 @@
-#!/home/benjamin/farmSycn/env/bin/python3
+#!/home/benjamin/farmSycn/env/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys

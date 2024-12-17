@@ -1,0 +1,49 @@
+{% extends 'base_admin.html' %}
+{% load static %}
+
+{% block title %}Issue Report{% endblock %}
+{% block content %}
+<div class="issue-container">
+  <div class="issues-section">
+    <h2 class="section-title">New Issues</h2>
+    {% for issue in issues %}
+    <div class="issue-card">
+      <div class="card-header">
+        <h3>{{ issue.cooperative.user.full_name }}</h3>
+        <a href="{% url 'system' issue.id %}"><i class="fa-solid fa-ellipsis-vertical"></i></a>
+      </div>
+      <div class="card-body">
+        <h6>Error: {{ issue.fail_type.name }}</h6>
+        <p>{{ issue.fail_type.error_detail }}</p>
+      </div>
+      <div class="card-footer">
+        <span>Last Updated: {{ issue.last_update }}</span>
+      </div>
+    </div>
+    {% empty %}
+    <p>No new issues available.</p>
+    {% endfor %}
+  </div>
+
+  <div class="issues-section">
+    <h2 class="section-title">Solved Issues</h2>
+    {% for solve in solved %}
+    <div class="issue-card">
+      <div class="card-header">
+        <h3>{{ solve.cooperative.user.full_name }}</h3>
+        <i class="fa-solid fa-ellipsis-vertical"></i>
+      </div>
+      <div class="card-body">
+        <h6>Error: {{ solve.fail_type.name }}</h6>
+        <p>Resolution Steps: {{ solve.resolution_steps }}</p>
+      </div>
+      <div class="card-footer">
+        <span>Resolved At: {{ solve.resolved_at }}</span>
+      </div>
+    </div>
+    {% empty %}
+    <p>No solved issues available.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
